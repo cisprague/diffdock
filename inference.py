@@ -171,8 +171,11 @@ for idx, orig_complex_graph in tqdm(enumerate(test_loader)):
         for rank, pos in enumerate(ligand_pos):
             mol_pred = copy.deepcopy(lig)
             if score_model_args.remove_hs: mol_pred = RemoveHs(mol_pred)
-            if rank == 0: write_mol_with_coords(mol_pred, pos, os.path.join(write_dir, f'rank{rank+1}.sdf'))
+            if rank == 0: 
+                write_mol_with_coords(mol_pred, pos, os.path.join(write_dir, f'rank{rank+1}.sdf'))
             write_mol_with_coords(mol_pred, pos, os.path.join(write_dir, f'rank{rank+1}_confidence{confidence[rank]:.2f}.sdf'))
+            np.save(os.path.join(write_dir, f'rank{rank+1}_confidence{confidence[rank]:.2f}'), confidence[rank])
+
 
         # save visualisation frames
         if args.save_visualisation:
